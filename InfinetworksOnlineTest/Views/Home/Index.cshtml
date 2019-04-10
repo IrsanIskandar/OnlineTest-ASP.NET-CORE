@@ -1,0 +1,205 @@
+﻿
+@{
+    ViewData["Title"] = "Home";
+}
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card-columns">
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <label class="text-white" id="namaLengkap" >Test Name</label>
+                </div>
+            </div>
+            <div class="card bg-primary ">
+                <div class="card-body">
+                    <label class="text-white" id="noTelepon">08216758xxxx</label>
+                    
+                </div>
+            </div>
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <label class="text-white" id="divisi" >Test Divisi</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="card bg-secondary" style="width: 100%;">
+            <div class="card-body text-center text-capitalize" id="TimingLeft" data-backdrop="static">
+                <div class="form-inline justify-content-center">
+                    <label id="lblTitle" CssClass="text-white">TIME LEFT : </label>
+                    &nbsp;
+                    <span id="lblTime" class="text-white">TIME IS NOT START </span>
+                    <input id="hidUserID" type="hidden" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row justify-content-center">
+        <div class="col col-md-12 col-lg-12">
+            <div class="form-group">
+                <button id="btnSimpanTop" class="btn btn-success form-control insertDataTop" type="submit">Simpan Jawaban</button>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row justify-content-center">
+        <div class="accordion" id="accordionQuestion">
+            <div class="card">
+                <div class="card-header" id="QuestionOne">
+                    <h5 class="mb-0 align-content-center">
+                        <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collQuestOne" aria-expanded="false" aria-controls="collQuestOne">
+                            <b>First Part Question (Test Database) #1</b>
+                        </a>
+                    </h5>
+                </div>
+
+                <div id="collQuestOne" class="collapse show" aria-labelledby="QuestionOne" data-parent="#accordionQuestion">
+                    <div class="card-body">
+                        <h5 class="h5 text-center">Test Database</h5>
+                        <ol>
+                            <li>
+                                Sebuah database memiliki dua table dengan komposisi sebagai berikut
+                                <br />
+                                <table class="table table-hover table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Karayawan</th>
+                                            <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
+                                            <th>Tunjangan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Nrp</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>Tanggal</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nama</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>Nrp</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>Transport</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Telepon</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>Makan</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                Dari table di atas, tolong dibuatkan query untuk keperluan sesuai kriteria di bawah :
+                                <ul>
+                                    <li>Ambilkan data tanggal, transport dan makan untuk <b>nrp A8930</b></li>
+                                    <li>Ambilkan data nama, alamat, transport dan makan untuk <b>nrp C1288</b> pada tanggal <b>15 Desember 2016</b></li>
+                                    <li>Hapus data tunjangan untuk <b>nrp B3555</b> pada tanggal <b>2 Juni 2016</b></li>
+                                </ul>
+                                <div class="form-group">
+                                    <textarea id="Answer1TD" class="form-control question1TD" rows="5" cols="10" required></textarea>
+                                </div>
+                            </li>
+                            <li>
+                                Apa perintah yang digunakan pada linux untuk melihat isi directory ?
+                                <div class="form-group">
+                                    <textarea id="Answer2TD" class="form-control question2TD" rows="5" cols="10" required></textarea>
+                                </div>
+                            </li>
+                            <li>
+                                Jelaskan pengertian anda mengenai database dan kegunaannya ?
+                                <div class="form-group">
+                                    <textarea id="Answer3TD" class="form-control question3TD" rows="5" cols="10" required></textarea>
+                                </div>
+                            </li>
+                            <li>
+                                Apa kegunaan tombol freeze view pada SQL Developer ?
+                                <div class="form-group">
+                                    <textarea id="Answer4TD" class="form-control question4TD" rows="5" cols="10" required></textarea>
+                                </div>
+                                @*<div class="form-group align-content-end">
+                                    <button id="btnLockAnswersTD" class="btn btn-danger btnLockAnswersTD" type="button">Kunci Jawaban</button>
+                                </div>*@
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="QuestionTwo">
+                    <h5 class="mb-0">
+                        <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collQuestTwo" aria-expanded="false" aria-controls="collQuestTwo">
+                            <b>Second Part Question (Test General IT) #2</b>
+                        </a>
+                    </h5>
+                </div>
+                <div id="collQuestTwo" class="collapse" aria-labelledby="QuestionTwo" data-parent="#accordionQuestion">
+                    <div class="card-body">
+                        <ol>
+                            <li>
+                                Anda seorang IT Support. Suatu saat anda dihubungi oleh user cabang yang mengatakan bahwa mereka tidak dapat
+                                <br />
+                                terkoneksi ke aplikasi yang digunakan, apakah yang anda lakukan ?
+                                <div class="form-group">
+                                    <textarea id="Answer1TGI" class="form-control question1TGI" rows="5" cols="10" required></textarea>
+                                </div>
+                            </li>
+                            <li>
+                                Bagaimana cara mengatasi virus ?
+                                <div class="form-group">
+                                    <textarea id="Answer2TGI" class="form-control question2TGI" rows="5" cols="10" required></textarea>
+                                </div>
+                            </li>
+                            <li>
+                                Apa nama ekstension untuk database file Microsoft Outlook ?
+                                <div class="form-group">
+                                    <textarea id="Answer3TGI" class="form-control question3TGI" rows="5" cols="10" required></textarea>
+                                </div>
+                            </li>
+                            <li>
+                                Apa perintah untuk melihat isi didalam suatu directory pada Microsoft dan Linux ?
+                                <div class="form-group">
+                                    <textarea id="Answer4TGI" class="form-control question4TGI" rows="5" cols="10" required></textarea>
+                                </div>
+                            </li>
+                            <li>
+                                Sebutkan jenis - jenis protocol dalam jaringan yang anda ketahui ?
+                                <div class="form-group">
+                                    <textarea id="Answer5TGI" class="form-control question5TGI" rows="5" cols="10" required></textarea>
+                                </div>
+                                @*<div class="form-group  align-content-end">
+                                    <button id="btnLockAnswersTGI" class="btn btn-danger btnLockAnswersTGI" type="button">Kunci Jawaban</button>
+                                </div>*@
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row justify-content-center">
+        <div class="col col-md-12 col-lg-12">
+            <p class="text-center h3">Good Luck 😊</p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col col-md-12 col-lg-12">
+            <div class="form-group">
+                <button id="btnSimpanBottom" class="btn btn-success form-control insertDataBottom" type="submit">Simpan Jawaban</button>
+            </div>
+        </div>
+    </div>
+</div>
+

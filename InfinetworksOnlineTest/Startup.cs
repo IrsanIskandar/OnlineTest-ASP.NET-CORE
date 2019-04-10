@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InfinetworksOnlineTest.ServiceConfig;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,10 @@ namespace InfinetworksOnlineTest
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            //Config Database Connection and Auth Server
+            Constant.connectionString = configuration.GetConnectionString("InfinetConnectionDatabase");
+            Constant.AuthServer = configuration.GetSection("AuthServer").GetValue<string>("LocalSSL");
         }
 
         public IConfiguration Configuration { get; }
