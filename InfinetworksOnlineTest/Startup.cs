@@ -61,8 +61,12 @@ namespace InfinetworksOnlineTest
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    name: "HomeIndex",
+                    template: "{controller=Home}/{action=AddAnswerInterviewer}");
+
+                routes.MapRoute(
+                    name: "CongratulationPage",
+                    template: "{controller=Home}/{action=Congratulation}");
             });
         }
     }

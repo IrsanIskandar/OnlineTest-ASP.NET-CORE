@@ -13,6 +13,7 @@ namespace InfinetworksOnlineTest.ServiceConfig
 
 
         // Create Constant Stored Procedure Name
-        public static readonly string SP_INSERT = "";
+        public static readonly string SP_INSERTREGISTERUSER = "";
+        public static readonly string SP_INSERTANSWERINTERVIEWER = "spINFINET_InsertUserAnsware";
     }
 }

@@ -54,7 +54,7 @@ namespace InfinetworksOnlineTest.ServiceConfig
             // return empty object when query returns no rows
             IEnumerable<T> result = new List<T>();
 
-            result = await ConnectionSql.QueryAsync<T>(sql: spName, param: param, commandType: System.Data.CommandType.StoredProcedure);
+            result = await existingConnection.QueryAsync<T>(sql: spName, param: param, commandType: System.Data.CommandType.StoredProcedure);
             if (ConnectionSql.State == System.Data.ConnectionState.Open)
             {
                 ConnectionSql.Close();
