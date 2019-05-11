@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -29,6 +30,17 @@ namespace InfinetworksOnlineTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(60);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -36,7 +48,20 @@ namespace InfinetworksOnlineTest
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.AreaPageViewLocationFormats.Clear();
+                options.AreaViewLocationFormats.Add("/AdminArea/{2}/Views/{1}/{0}.cshtml");
+                options.AreaViewLocationFormats.Add("/AdminArea/{2}/Views/Shared/{0}.cshtml");
+                options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
+            });
 
+            services.AddRouting();
+
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.AllowAreas = true;
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -57,16 +82,23 @@ namespace InfinetworksOnlineTest
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "HomeIndex",
-                    template: "{controller=Home}/{action=AddAnswerInterviewer}");
+                routes.MapAreaRoute(
+                    "defaultAdmin",
+                    "AdminArea",
+                    "AdminArea/{controller=HomeAdmin}/{action=Home}");
 
                 routes.MapRoute(
-                    name: "CongratulationPage",
-                    template: "{controller=Home}/{action=Congratulation}");
+                    "Guess", "{controller=Home}/{action=RegisterInterviewer}");
+
+                routes.MapRoute(
+                    "GuessQuestions", "{controller=Home}/{action=AddAnswerInterviewer}");
+
+                routes.MapRoute(
+                    "GuessCongratulation", "{controller=Home}/{action=Congratulation}");
             });
         }
     }

@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"] - Dashboard</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
+    </environment>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+    <style>
+        footer {
+            background-color: #929292;
+            position: fixed;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            height: 35px;
+            text-align: center;
+            color: #CCC;
+            z-index: 99999;
+        }
+
+            footer p {
+                color: #FFFFFF;
+                padding: 10.5px;
+                margin: 0px;
+                line-height: 100%;
+            }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Infinetworks Admin</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link active" asp-area="AdminArea" asp-controller="HomeAdmin" asp-action="Home"><i class="fa fa-home"></i> Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" asp-area="AdminArea" asp-controller="HomeAdmin" asp-action="AddMember"><i class="fa fa-database"></i> Add Member</a>
+            </div>
+            <div class="navbar-nav">
+                <div class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                    <div class="dropdown-menu bg-primary" aria-labelledby="navbarDropdown">
+                        <a asp-area="AdminArea" asp-controller="HomeAdmin" asp-action="SignOut" class="nav-item nav-link" id="linkSignout"><i class="fa fa-sign-out"></i> Sign Out</a>
+                        <a class="nav-item nav-link" id="linkProfile" href="#"><i class="fa fa-user-circle-o"></i> Profile Setting</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col col-auto">
+                <img src="~/Images/InfinetworksLogoPSDw900h90.png" alt="Logo" class="img-fluid" />
+            </div>
+        </div>
+        <br />
+        @RenderBody()
+    </div>
+    <footer class="align-bottom">
+        <p>&copy; @DateTime.Now.Year <a style="color: #0069D9; text-decoration: none;" href="https://www.infinetworks.com/">Infinetwork</a>, All rights reserved.</p>
+    </footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/lib/sweetalert2/src/sweetalert2.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha256-E/V4cWE4qvAeO5MOhjtGtqDzPndRO1LBk8lJ/PR7CA4=">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"
+                asp-fallback-src="~lib/sweetalert2/dist/sweetalert2.min.js">
+        </script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.time-to.min.js" asp-append-version="true"></script>
+
+    <script>
+        let addUser = document.getElementById('lnkDataUser');
+        let profileSetting = document.getElementById('linkProfile');
+
+        addUser.addEventListener("click", function () {
+            swal({
+                title: "Comming Soon",
+                text: "This menu is still under development.",
+                icon: "warning",
+            });
+        });
+
+        profileSetting.addEventListener("click", function () {
+            swal({
+                title: "Comming Soon",
+                text: "This menu is still under development.",
+                icon: "warning",
+            });
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

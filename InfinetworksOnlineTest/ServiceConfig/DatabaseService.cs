@@ -8,44 +8,46 @@ using MySql.Data.MySqlClient;
 
 namespace InfinetworksOnlineTest.ServiceConfig
 {
-    public class DatabaseService<T>
+    public static class DatabaseConnection
     {
         // Property Database Service MYSQL
-        private static MySqlConnection existingConnection;
+        public static MySqlConnection existingConnection;
         private static MySqlConnection ConnectionSql => existingConnection ?? (existingConnection = GetSqlConnection());
 
 
-        private static MySqlConnection GetSqlConnection()
+        public static MySqlConnection GetSqlConnection()
         {
             MySqlConnection connection = new MySqlConnection(Constant.connectionString);
             connection.Open();
 
             return connection;
         }
+    }
 
+    public class DatabaseService<T>
+    {
         public async static Task ExecuteNoReturn(string spName, object param = null)
         {
-            await ConnectionSql.ExecuteAsync(sql: spName, param: param, commandType: System.Data.CommandType.StoredProcedure, commandTimeout: 30);
-            await ConnectionSql.CloseAsync();
+            await DatabaseConnection.GetSqlConnection().ExecuteAsync(sql: spName, param: param, commandType: System.Data.CommandType.StoredProcedure, commandTimeout: 30);
+            await DatabaseConnection.GetSqlConnection().CloseAsync();
         }
 
-        public async static Task ExecuteNoReturn(string queryText, bool status, object param = null)
+        public async static Task<bool> ExecuteNoReturn(string queryText, string status = "", object param = null)
         {
-            if (status == true)
+            bool result = Convert.ToBoolean(await DatabaseConnection.GetSqlConnection().ExecuteAsync(sql: queryText, param: param, commandType: System.Data.CommandType.Text, commandTimeout: 30));
+
+            if (result == true)
             {
-                await ConnectionSql.ExecuteAsync(sql: queryText, param: param, commandType: System.Data.CommandType.Text, commandTimeout: 30);
-                await ConnectionSql.CloseAsync();
+                await DatabaseConnection.GetSqlConnection().CloseAsync();
             }
-            else
-            {
-                await ConnectionSql.CloseAsync();
-            }
+
+            return result;
         }
 
         public async static Task<T> ExecuteSingleAsync(string spName, object param = null)
         {
-            T result = await ConnectionSql.QueryFirstOrDefaultAsync<T>(sql: spName, param: param, commandType: System.Data.CommandType.StoredProcedure);
-            ConnectionSql.Close();
+            T result = await DatabaseConnection.GetSqlConnection().QueryFirstOrDefaultAsync<T>(sql: spName, param: param, commandType: System.Data.CommandType.StoredProcedure);
+            DatabaseConnection.GetSqlConnection().Close();
             return result;
         }
 
@@ -54,12 +56,32 @@ namespace InfinetworksOnlineTest.ServiceConfig
             // return empty object when query returns no rows
             IEnumerable<T> result = new List<T>();
 
-            result = await existingConnection.QueryAsync<T>(sql: spName, param: param, commandType: System.Data.CommandType.StoredProcedure);
-            if (ConnectionSql.State == System.Data.ConnectionState.Open)
+            result = await DatabaseConnection.GetSqlConnection().QueryAsync<T>(sql: spName, param: param, commandType: System.Data.CommandType.StoredProcedure);
+            if (DatabaseConnection.GetSqlConnection().State == System.Data.ConnectionState.Open)
             {
-                ConnectionSql.Close();
+                DatabaseConnection.GetSqlConnection().Close();
             }
             return result;
+        }
+    }
+
+    public class DatabaseService
+    {
+        public async static Task<MySqlCommand> Execute(string spname, MySqlParameter[] parameters = null)
+        {
+            MySqlCommand command = new MySqlCommand();
+            command.Connection = DatabaseConnection.GetSqlConnection();
+            command.CommandText = spname;
+            command.CommandTimeout = 30;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddRange(parameters);
+
+            if(DatabaseConnection.GetSqlConnection().State == System.Data.ConnectionState.Closed)
+            {
+                await DatabaseConnection.GetSqlConnection().OpenAsync();
+            }
+
+            return command;
         }
     }
 }

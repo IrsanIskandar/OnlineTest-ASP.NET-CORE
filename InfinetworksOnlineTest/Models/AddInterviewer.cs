@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace InfinetworksOnlineTest.Models
 {
-    public class Interviewer
+    public class AddInterviewer
     {
-        public long ID { get; set; }
+        public long UserID { get; set; }
         public string NamaLengkap { get; set; }
         public string NomorTelepon { get; set; }
         public string Divisi { get; set; }

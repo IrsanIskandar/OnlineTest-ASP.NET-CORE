@@ -1,0 +1,96 @@
+﻿@model InfinetworksOnlineTest.Models.AddInterviewer
+
+@{
+    ViewData["Title"] = "Register Interviewer";
+
+    string result1 = @ViewBag.StatusDBError;
+    string result2 = @ViewBag.StatusSystemError;
+}
+<h1></h1>
+<form asp-area="" asp-controller="Home" asp-action="RegisterInterviewer" method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">User Register</h5>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-signin" id="fromRegister">
+                            <div class="form-label-group">
+                                <label for="inputNama">Full Name</label>
+                                <input type="text" id="inputNama" name="inputNama" asp-for="NamaLengkap" class="form-control" placeholder="User Interview" required autofocus>
+                                <span asp-validation-for="NamaLengkap" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-label-group">
+                                <label for="inputNoTlp">Phone Number</label>
+                                <input type="text" name="inputNoTlp" id="inputNoTlp" asp-for="NomorTelepon" onkeypress="javascript:return isNumber(event);" class="form-control" placeholder="08121234xxxx" required>
+                                <span asp-validation-for="NomorTelepon" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-label-group">
+                                <label for="ddlDivisi">Choose Division</label>
+                                <select name="ddlDivisi" asp-for="Divisi" class="form-control" id="ddlDivisi" required>
+                                    <option value="NULL" selected="selected">-- Choose Division --</option>
+                                    <option value="IT SUPPORT">IT CLIENT SUPPORT</option>
+                                    <option value="IT QA">IT QUALITY ASURANCE</option>
+                                </select>
+                                <span asp-validation-for="Divisi" class="text-danger"></span>
+                            </div>
+                            <hr class="my-4">
+                            <input id="btnRegister" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Start The Test" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+
+    @{
+        if (result1 != null)
+        {
+            <script type="text/javascript">
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: '@result1',
+                    footer: '<a href>Why do I have this issue?</a>'
+
+                });
+            </script>
+        }
+        else if (result2 != null)
+        {
+            <script type="text/javascript">
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: '@result2',
+                    footer: '<a href>Why do I have this issue?</a>'
+
+                });
+            </script>
+        }
+        else
+        {
+            <script type="text/javascript">
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                Toast.fire({
+                    type: 'success',
+                    title: 'Welcome To Infinetworks'
+                });
+            </script>
+        }
+    }
+
+    <script src="~/js/RegisterScript.js"></script>
+}

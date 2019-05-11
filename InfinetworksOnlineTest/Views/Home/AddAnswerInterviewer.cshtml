@@ -10,18 +10,18 @@
             <div class="card-columns">
                 <div class="card bg-primary">
                     <div class="card-body">
-                        <label class="text-white" id="namaLengkap">Test Name</label>
+                        <label class="text-white" id="namaLengkap">@ViewBag.Fullname</label>
                     </div>
                 </div>
                 <div class="card bg-primary ">
                     <div class="card-body">
-                        <label class="text-white" id="noTelepon">08216758xxxx</label>
+                        <label class="text-white" id="noTelepon">@ViewBag.PhoneNumber</label>
 
                     </div>
                 </div>
                 <div class="card bg-primary">
                     <div class="card-body">
-                        <label class="text-white" id="divisi">Test Divisi</label>
+                        <label class="text-white" id="divisi">@ViewBag.Division</label>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,6 @@
                             </a>
                         </h5>
                     </div>
-
                     <div id="collQuestOne" class="collapse show" aria-labelledby="QuestionOne" data-parent="#accordionQuestion">
                         <div class="card-body">
                             <h5 class="h5 text-center">Test Database</h5>
@@ -191,9 +190,9 @@
                                         <textarea asp-for="AnswersNine" name="AnswersNine" id="AnswersNine" class="form-control question5TGI" rows="5" cols="10" required></textarea>
                                         <span asp-validation-for="AnswersNine" class="text-danger"></span>
                                     </div>
-                                    <div class="form-group  align-content-end">
-                                            <button id="btnLockAnswersTGI" class="btn btn-danger btnLockAnswersTGI" type="button" onclick="testAlert()">Kunci Jawaban</button>
-                                        </div>
+                                    @*<div class="form-group  align-content-end">
+                                            <button id="btnLockAnswersTGI" class="btn btn-danger btnLockAnswersTGI" type="button">Kunci Jawaban</button>
+                                        </div>*@
                                 </li>
                             </ol>
                         </div>
@@ -217,15 +216,79 @@
     </div>
 </form>
 
-@section Scripts { 
+<div class="row">
+    <h3 class="h3">@ViewBag.Status</h3>
+    <h3 class="h3">@ViewBag.StatusDBError</h3>
+</div>
+
+<div id="expireSession" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="parafTime">Your time is less than <strong>one (-1) </strong>minute again, immediately complete the questions that have not been answered.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
     <script>
-        function testAlert() {
-            Swal.fire({
-                type: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!',
-                footer: '<a href>Why do I have this issue?</a>'
+        $(document).ready(function () {
+            let getMinute = @ViewBag.TimeLeft;
+            let minute = getMinute / 1000;
+            //let curOneMinute = minute - 60 * 1000;
+            //let curThirtySecond = minute - 30 * 1000;
+
+            let countMinute = $('#lblTime').timeTo({
+                seconds: minute
+            });
+
+            $('#btnLockAnswersTGI').on('click', function () {
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                    footer: '<a href>Why do I have this issue?</a>'
+                });
+            });
+
+            $('#lblTime').append(countMinute);
+            //setTimeout(function () {
+            //    $('#expireSession').modal('show');
+            //}, countMinute - 60 * 1000);
+
+            //setTimeout(function () {
+            //    $('#expireSession').modal('show');
+            //    $('#parafTime').html($('#parafTime').html().replace(
+            //        `Your time is less than <strong>one (-1) </strong>minute again, immediately complete the questions that have not been answered.`,
+            //        `Your time is less than <strong>thirty (-30) </strong>seconds again, immediately complete unanswered questions.`));
+            //}, countMinute - 30 * 1000);
+        });
+
+        function regisSuccess() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+            Toast.fire({
+                type: 'success',
+                title: 'Register Successfully'
             });
         }
+
+        window.onload = regisSuccess;
     </script>
 }
