@@ -5,3 +5,20 @@
 
 <h1>Home</h1>
 
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#linkProfile').click(function () {
+                Swal.fire({
+                    type: 'info',
+                    title: 'Oops...',
+                    text: 'Coming Soon...\n This menu is develop',
+                    footer: '<a href>Why do I have this issue?</a>',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false
+                });
+            });
+        });
+    </script>
+}
