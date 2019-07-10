@@ -22,6 +22,9 @@ namespace InfinetworksOnlineTest.ServiceConfig
         public static readonly string SP_INSERTANSWERINTERVIEWER = "spINFINET_InsertUserAnsware";
 
 
+        // Create Temp Data Property
+        public static dynamic getTempData = new System.Dynamic.ExpandoObject();
+
         //Time on GMT+0 Timezone
         public static readonly DateTime GMT_TIME =
             TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time"));

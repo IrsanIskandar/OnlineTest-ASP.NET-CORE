@@ -1,10 +1,91 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+
 @{
     ViewData["Title"] = "Home";
+
+    string cookieFullnameData = ViewBag.CookieFullname;
+    string cookiePrivellage = ViewBag.CookiePermission;
+    string sessionFullnameData = ViewBag.SessionFullname;
+    string sessionPrivellage = ViewBag.SessionPermission;
 }
 
-<h1>Home</h1>
-
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card-columns">
+            <div class="card bg-primary">
+                <div class="card-body text-center">
+                    @if (cookieFullnameData != null && cookiePrivellage != null)
+                    {
+                        <label id="lblUsername" CssClass="text-white">@cookieFullnameData</label>
+                    }
+                    else if (sessionFullnameData != null && sessionPrivellage != null)
+                    {
+                        <label id="lblUsername" CssClass="text-white">@sessionFullnameData</label>
+                    }
+                    else
+                    {
+                        <label id="lblUsername" CssClass="text-white">Anonymous</label>
+                    }
+                </div>
+            </div>
+            <div class="card" style="border: none;">
+                <div class="card-body">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="card bg-primary">
+                <div class="card-body  text-center">
+                    @if (cookieFullnameData != null && cookiePrivellage != null)
+                    {
+                        <label id="lblUsername" CssClass="text-white">@cookiePrivellage</label>
+                    }
+                    else if (sessionFullnameData != null && sessionPrivellage != null)
+                    {
+                        <label id="lblUsername" CssClass="text-white">@sessionPrivellage</label>
+                    }
+                    else
+                    {
+                        <label id="lblUsername" CssClass="text-white">Anonymous</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <table id="tableInterviewer" class="table table-striped table-responsive-lg">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Fullname</th>
+                    <th scope="col">Answer One</th>
+                    <th scope="col">Answer Two</th>
+                    <th scope="col">Answer Three</th>
+                    <th scope="col">Answer Four</th>
+                    <th scope="col">Answer Five</th>
+                    <th scope="col">Answer Six</th>
+                    <th scope="col">Answer Seven</th>
+                    <th scope="col">Answer Eight</th>
+                    <th scope="col">Answer nine</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Test User</td>
+                    <td>Answer One</td>
+                    <td>Answer Two</td>
+                    <td>Answer Three</td>
+                    <td>Answer Four</td>
+                    <td>Answer Five</td>
+                    <td>Answer Six</td>
+                    <td>Answer Seven</td>
+                    <td>Answer Eight</td>
+                    <td>Answer nine</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 @section Scripts{
     <script type="text/javascript">
@@ -13,12 +94,13 @@
                 Swal.fire({
                     type: 'info',
                     title: 'Oops...',
-                    text: 'Coming Soon...\n This menu is develop',
+                    text: 'Coming Soon...\n\n This menu is develop',
                     footer: '<a href>Why do I have this issue?</a>',
                     allowEscapeKey: false,
                     allowOutsideClick: false
                 });
             });
+            $('#tableInterviewer').DataTable();
         });
     </script>
 }

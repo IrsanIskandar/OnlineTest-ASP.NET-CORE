@@ -1,0 +1,183 @@
+﻿@model InfinetworksOnlineTest.Areas.AdminArea.Models.UserLogin
+
+@{
+    Layout = null;
+
+    string result1 = ViewBag.ErrorDatabase;
+    string result2 = ViewBag.SystemError;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login Dashboard</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+              asp-fallback-href="~/lib/font-awesome/css/font-awesome.min.css"
+              asp-fallback-test-class="fa fa-cog"
+              integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+              crossorigin="anonymous">
+    </environment>
+
+    <style type="text/css">
+        footer {
+            background-color: #929292;
+            position: fixed;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            height: 35px;
+            text-align: center;
+            color: #CCC;
+        }
+
+            footer p {
+                color: #FFFFFF;
+                padding: 10.5px;
+                margin: 0px;
+                line-height: 100%;
+            }
+
+        .form-group input[type="checkbox"] {
+            display: none;
+        }
+
+            .form-group input[type="checkbox"] + .btn-group > label span {
+                width: 20px;
+            }
+
+                .form-group input[type="checkbox"] + .btn-group > label span:first-child {
+                    display: none;
+                }
+
+                .form-group input[type="checkbox"] + .btn-group > label span:last-child {
+                    display: inline-block;
+                }
+
+            .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+                display: inline-block;
+            }
+
+            .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+                display: none;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col col-auto">
+                <img class="img-fluid" id="imgLogo" alt="Logo" src="~/Images/InfinetworksLogoPSDw900h90.png" asp-append-version="true" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <form asp-area="AdminArea" asp-controller="HomeAdmin" asp-action="LoginAccess" method="post">
+                    <div class="card card-signin my-5">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">User Sign In</h5>
+                            <div class="form-signin" id="fromSignIn">
+                                <div class="form-label-group">
+                                    <label for="emailOrUsername">Username</label>
+                                    <input type="text" id="emailOrUsername" name="emailOrUsername" class="form-control" placeholder="Email Or Username" required autofocus>
+                                </div>
+
+                                <div class="form-label-group">
+                                    <label for="inputPassword">Password</label>
+                                    <input asp-for="Password_adm" type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Your Password" required>
+                                </div>
+
+                                <div class="form-label-group">
+                                    <label for="ddlAccess">Access User</label>
+                                    <select asp-for="AccessPermission" name="ddlAccess" class="form-control" id="ddlAccess">
+                                        <option selected="selected" value="NullData">-- Choose Permission --</option>
+                                        <option value="Administrator">Administrator</option>
+                                        <option value="User">Users</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="form-group">
+                                    <input type="checkbox" asp-for="RememberMe" name="succecChkRemember" id="succecChkRemember" />
+                                    <div class="btn-group">
+                                        <label for="succecChkRemember" class="btn btn-success">
+                                            <span class="fa fa-check"></span>
+                                            <span></span>
+                                        </label>
+                                        <label for="succecChkRemember" class="[ btn btn-secondary active ]">
+                                            Remember Me
+                                        </label>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <button id="btnLogin" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign In</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="~/js/ActionScripts.js" asp-append-version="true"></script>
+    <!-- Sweetalert2 Libraries -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@8" asp-append-version="true"></script>
+
+    @{
+        if (result1 != null)
+        {
+            <script type="text/javascript">
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: '@result1',
+                    footer: '<a href>Why do I have this issue?</a>',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false
+                });
+            </script>
+        }
+        else if (result2 != null)
+        {
+            <script type="text/javascript">
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: '@result2',
+                    footer: '<a href>Why do I have this issue?</a>',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false
+                });
+            </script>
+        }
+        else
+        {
+            <script type="text/javascript">
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                Toast.fire({
+                    type: 'success',
+                    title: 'Welcome To Dashboard Admin'
+                });
+            </script>
+        }
+    }
+</body>
+</html>

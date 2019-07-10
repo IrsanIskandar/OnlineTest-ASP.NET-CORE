@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InfinetworksOnlineTest.ServiceConfig;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace InfinetworksOnlineTest
 {
@@ -22,7 +27,7 @@ namespace InfinetworksOnlineTest
 
             //Config Database Connection and Auth Server
             Constant.connectionString = configuration.GetConnectionString("InfinetConnectionDatabase");
-            Constant.AuthServer = configuration.GetSection("AuthServer").GetValue<string>("LocalSSL");
+            Constant.AuthServer = configuration.GetSection("AuthServer").GetValue<string>("applicationUrl");
         }
 
         public IConfiguration Configuration { get; }
@@ -32,41 +37,66 @@ namespace InfinetworksOnlineTest
         {
             services.AddDistributedMemoryCache();
 
-            services.AddSession(options =>
+            // Konfigurasi Untuk Identitas User
+            services.Configure<IdentityOptions>(options =>
             {
-                // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromSeconds(60);
-                options.Cookie.HttpOnly = true;
-                // Make the session cookie essential
-                options.Cookie.IsEssential = true;
+                //Berikut ini adalah password setting authentications untuk user yang akan register
+                //options.ClaimsIdentity.RoleClaimType = "Admin";
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 0; // there must be integer
+
+                //mengatur Logout session
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
+                // maksimal user melakukan kesalahan saat akan login
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                // memperbolehkan user baru untuk login setelah user lama logout 
+                options.Lockout.AllowedForNewUsers = true;
+
+                //User Settings
+                // karakter yang diperbolehkan untuk digunakan oleh user
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-";
+                // email yang diperbolehkan digunakan oleh user
+                options.User.RequireUniqueEmail = false;
             });
 
-            services.Configure<CookiePolicyOptions>(options =>
+            //Config Add Authorization
+            services.AddAuthorization(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Administrator"));
+                options.AddPolicy("UsernOnly", policy => policy.RequireRole("User"));
             });
 
-            services.Configure<RazorViewEngineOptions>(options =>
+            services.Configure<SecurityStampValidatorOptions>(options =>
             {
-                options.AreaPageViewLocationFormats.Clear();
-                options.AreaViewLocationFormats.Add("/AdminArea/{2}/Views/{1}/{0}.cshtml");
-                options.AreaViewLocationFormats.Add("/AdminArea/{2}/Views/Shared/{0}.cshtml");
-                options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
+                options.ValidationInterval = TimeSpan.FromMinutes(10);
             });
 
-            services.AddRouting();
+            services.AddAuthentication(CookieAuthenticationDefaults.CookiePrefix)
+                .AddCookie(option => 
+                {
+                    option.AccessDeniedPath = new PathString("/AdminArea/View/Shared/Accessdenied");
+                    option.SlidingExpiration = true;
+                    option.Cookie.SameSite = SameSiteMode.Strict;
+                    option.ExpireTimeSpan = TimeSpan.FromHours(6);
+                });
 
             services.AddMvc().AddRazorPagesOptions(options =>
             {
                 options.AllowAreas = true;
             });
+
+            services.AddSession();
+            services.AddRouting();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider svp)
         {
             if (env.IsDevelopment())
             {
@@ -80,12 +110,19 @@ namespace InfinetworksOnlineTest
             }
 
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
+                routes.MapAreaRoute(
+                    "LoginAdmin",
+                    "AdminArea",
+                    "AdminArea/{controller=HomeAdmin}/{action=LoginAction}");
+
                 routes.MapAreaRoute(
                     "defaultAdmin",
                     "AdminArea",

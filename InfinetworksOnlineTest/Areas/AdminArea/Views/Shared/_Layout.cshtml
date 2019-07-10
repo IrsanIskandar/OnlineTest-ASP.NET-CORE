@@ -23,10 +23,7 @@
     </environment>
 
     <!-- Datatable Libraries -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.3/b-1.5.6/b-flash-1.5.6/b-print-1.5.6/datatables.min.css" />
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.3/b-1.5.6/b-flash-1.5.6/b-print-1.5.6/datatables.min.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/af-2.3.3/b-1.5.6/b-flash-1.5.6/b-html5-1.5.6/b-print-1.5.6/r-2.2.2/datatables.min.css" asp-append-version="true" />
 
     <style>
         footer {
@@ -51,7 +48,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Infinetworks Admin</a>
+        <a class="navbar-brand" href="#">Dashboard Admin</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -64,17 +61,17 @@
                     <a class="nav-link" asp-area="AdminArea" asp-controller="HomeAdmin" asp-action="AddMember"><i class="fa fa-database"></i> Add Member</a>
                 </li>
             </ul>
-            <ul class="nav navbar-nav float-md-right mr-2">
+            <ul class="nav navbar-nav mr-md-1">
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> Settings</a>
                     <div class="dropdown-menu bg-primary" aria-labelledby="navbarDropdown">
-                        <a asp-area="AdminArea" asp-controller="HomeAdmin" asp-action="SignOut" class="dropdown-item" id="linkSignout"><i class="fa fa-sign-out"></i> Sign Out</a>
+                        <a asp-area="AdminArea" asp-controller="Login" asp-action="SignOut" class="dropdown-item" id="linkSignout"><i class="fa fa-sign-out"></i> Sign Out</a>
                         <a class="dropdown-item" id="linkProfile" href="#"><i class="fa fa-user-circle-o"></i> Profile Setting</a>
                     </div>
                 </li>
             </ul>
             <div class="navbar-nav ml-5">
-                
+
             </div>
         </div>
     </nav>
@@ -115,6 +112,11 @@
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/jquery.time-to.min.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/af-2.3.3/b-1.5.6/b-flash-1.5.6/b-html5-1.5.6/b-print-1.5.6/r-2.2.2/datatables.min.js" asp-append-version="true"></script>
+    <!-- Sweetalert2 Libraries -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@8" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
 </body>
